@@ -1,0 +1,41 @@
+{
+  "name": "ne-auth",
+  "version": "1.0.0",
+  "description": "Description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/node-engine/ne-auth.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "PassportJS",
+    "node_engine"
+  ],
+  "author": {
+    "name": "Bernard Hamann"
+  },
+  "license": "SEE LICENSE IN readme.md",
+  "bugs": {
+    "url": "https://github.com/node-engine/ne-auth/issues"
+  },
+  "homepage": "https://github.com/node-engine/ne-auth#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "mongoose": "^4.1.9",
+    "passport-facebook": "^2.0.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0"
+  },
+  "readme": "# ne-passport (Node Engine Auth)",
+  "readmeFilename": "readme.md",
+  "gitHead": "4b734605912871ce286cd4999bb6a40c65a39477",
+  "_id": "ne-passport@1.0.0",
+  "_shasum": "f146a35b42468d0761bee066c60a7019c7e6ccf5",
+  "_from": "ne-passport@*"
+}
