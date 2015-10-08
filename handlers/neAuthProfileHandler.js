@@ -12,7 +12,7 @@ var meta = {
         },
         cycle: false,
         search: false
-    },
+    }
 };
 
 var handler = React.createClass({
