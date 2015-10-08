@@ -13,13 +13,13 @@ var _ = require('lodash');
 
 var neSuperToken = process.env.NE_SUPER_TOKEN;
 
-var neUsersModel = require ('./models/neUsersModel');
+var neUsersModel = require ('./users/neUsersModel');
 
 
 ////////////////////////////////////////////////////////////
 
 
-var apiRoutesTemplate = require('./apiRoutesTemplate');
+var usersApiRoutesTemplate = require('./users/usersApiRoutesTemplate');
 
 
 
@@ -74,7 +74,7 @@ var neAuth = {
 
     },
 
-    apiRoutes: function (server, passport, options){
+    usersApiRoutes: function (server, passport, options){
 
         /*
 
@@ -89,19 +89,17 @@ var neAuth = {
         var routerForUsers = express.Router();
         var permissionsArrayForUsers = ['admin'];
         var populatePathForUsers = "";
-        if (options && options.userDetail === true){
-            populatePathForUsers = "neuserdetail";
+        if (options && options.usersDetail === true){
+            populatePathForUsers = "neusersdetail";
         }
-        apiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
+        usersApiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
         server.use('/api/users', routerForUsers);
-
-
 
         if (options && options.insecure === true){
             var routerForUsersSuper = express.Router();
             var populatePathForUsersSuper = "";
             var permissionsArrayForUsersSuper = ['reader'];
-            apiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
+            usersApiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
             server.use('/api/users', routerForUsers);
         }
 
