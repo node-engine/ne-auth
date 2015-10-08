@@ -1,5 +1,5 @@
-var validateToken = require('./jwt/jwtValidate');
-var checkPermissions = require('./jwt/jwtPermissions');
+var validateToken = require('../jwt/jwtValidate');
+var checkPermissions = require('../jwt/jwtPermissions');
 
 var baseRoutes =  function (router, model, permissionsArray, populatePath){
 
