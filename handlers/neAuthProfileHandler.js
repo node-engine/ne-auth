@@ -20,6 +20,24 @@ var handler = React.createClass({
     render: function() {
         var self = this;
 
+        var adminnav;
+        if (self.props.meta && self.props.meta.claims && self.props.meta.claims.displayName){
+            var text = self.props.meta.claims.displayName;
+            adminnav =
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/profile">Profile for {text}</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/admin/users">Users</a></li>
+                </ul>
+        }
+        else {
+            adminnav =
+                <ul>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+        }
+
         console.log(self.props);
         console.log(self.props.data.nedb1);
 
@@ -69,7 +87,7 @@ var handler = React.createClass({
         return (
             <body>
             <h2 id="main-title">This is the Profile Handler</h2>
-
+            {adminnav}
             {profile}
 
             </body>
