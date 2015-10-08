@@ -6,7 +6,7 @@ var babel = require('gulp-babel');
 var fs = require ('fs');
 var _ = require('lodash');
 
-var jwtValidate = require('./jwt/jwtValidate')
+var jwtValidate = require('./jwt/jwtValidate');
 
 
 
