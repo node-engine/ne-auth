@@ -1,5 +1,6 @@
 var validateToken = require('../jwt/jwtValidate');
 var checkPermissions = require('../jwt/jwtPermissions');
+var stringify = require ('stringify-object');
 
 var baseRoutes =  function (router, model, permissionsArray, populatePath){
 
@@ -71,6 +72,7 @@ var baseRoutes =  function (router, model, permissionsArray, populatePath){
                 config['multi'] = true;
             }
 
+
             console.log("--------------------");
             console.log("Put request received");
 
@@ -85,12 +87,18 @@ var baseRoutes =  function (router, model, permissionsArray, populatePath){
                 var s1 = {};
                 s1[fs1] = vs1;
 
+                // Log
+                var logItem = {
+                    description: fs1 + " changed to " + vs1
+                }
+
                 if (fs1 != null && vs1 != null) {
                     model
                         .update(
                         q1,
                         {
-                            $set: s1
+                            $set: s1,
+                            $push: { "log": logItem }
                         },
                         config
                     )
@@ -117,11 +125,22 @@ var baseRoutes =  function (router, model, permissionsArray, populatePath){
             else if (Object.keys(json).length !== 0) {
                 console.log("JSON request body object found");
 
+                var jsonString = stringify(json, {
+                    indent: '  ',
+                    singleQuotes: false
+                });
+
+                // Log
+                var logItem = {
+                    description: "json used to update: " + jsonString
+                }
+
                 model
                     .update(
                     q1,
                     {
-                        $set: json
+                        $set: json,
+                        $push: { "log": logItem }
                     },
                     config
                 )
