@@ -88,12 +88,22 @@ var neAuth = {
 
         var routerForUsers = express.Router();
         var permissionsArrayForUsers = ['admin'];
-        var populatePathForUsers = ""
+        var populatePathForUsers = "";
         if (options && options.userDetail === true){
             populatePathForUsers = "neuserdetail";
         }
         apiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
         server.use('/api/users', routerForUsers);
+
+
+
+        if (options && options.insecure === true){
+            var routerForUsersSuper = express.Router();
+            var populatePathForUsersSuper = "";
+            var permissionsArrayForUsersSuper = ['reader'];
+            apiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
+            server.use('/api/users', routerForUsers);
+        }
 
     },
 

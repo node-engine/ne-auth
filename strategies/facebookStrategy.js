@@ -36,6 +36,7 @@ var neFacebookStrategy = function  (passport, neUsersModel) {
                         newUser.facebook.token = token;
                         newUser.facebook.active = true;
                         newUser.profile.name.displayName  = profile.displayName;
+                        newUser.permissions.push("reader");
                         //newUser.profile.emails.push(profile.emails[0].value);
                         console.log(newUser);
                         newUser.save(function(err) {
