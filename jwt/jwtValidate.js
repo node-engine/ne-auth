@@ -4,6 +4,7 @@ var jwtValidate = function (){
 
     return expressJwt({
         secret: process.env.JWT_SECRET,
+        credentialsRequired: false,
         requestProperty: 'claims',
         getToken: function fromHeaderOrQuerystring(req) {
             if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {

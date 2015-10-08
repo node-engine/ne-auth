@@ -6,6 +6,9 @@ var babel = require('gulp-babel');
 var fs = require ('fs');
 var _ = require('lodash');
 
+var jwtValidate = require('./jwt/jwtValidate')
+
+
 
 //////////////////////////////
 // Models
@@ -51,6 +54,8 @@ var neAuth = {
         facebookStrategy(passport, neUsersModel);
 
         server.use(passport.initialize());
+
+        server.use(jwtValidate());
 
     },
 
