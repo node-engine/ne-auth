@@ -26,7 +26,7 @@ var handler = React.createClass({
             adminnav =
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/profile">Profile for {text}</a></li>
+                    <li><a href="/profile">{text}</a></li>
                     <li><a href="/admin">Admin</a></li>
                     <li><a href="/admin/users">Users</a></li>
                 </ul>
@@ -69,10 +69,10 @@ var handler = React.createClass({
 
         var profile;
         if (self.props.meta.claims && self.props.meta.claims.displayName){
-            var name = self.props.meta.claims.displayName;
+            var greating = "Welcome " + self.props.meta.claims.displayName;
             profile = (
                 <div>
-                    <p>Welcome {name} </p>
+                    <p>{greating}</p>
                     {facebook}
                 </div>
             )

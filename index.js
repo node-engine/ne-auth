@@ -74,6 +74,9 @@ var neAuth = {
         var localStrategyRoutes = require('./authRoutes/localStrategyRoutes');
         localStrategyRoutes(server, passport);
 
+        var logoutRoute = require('./authRoutes/logoutRoute');
+        logoutRoute(server, passport);
+
         var facebookStrategyRoutes = require('./authRoutes/facebookStrategyRoutes');
         facebookStrategyRoutes(server, passport);
 
