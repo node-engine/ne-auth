@@ -10,15 +10,20 @@ var neLocalStrategyRoutes = function (server, passport){
         passport.authenticate('localStrategyLogin', function(err, user, info){
 
             if (err !== null) {
-                return next(err);
+                var redirectPath = '/login' + '?message=Error'
+                return res.redirect(redirectPath);
             }
             else if (info.error) {
                 var redirectPath = '/login' + '?message='+ info.error;
                 return res.redirect(redirectPath);
             }
-            else {
+            else if (info.token){
                 return res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
                     .redirect('/profile');
+            }
+            else{
+                var redirectPath = '/login' + '?message=UnknownError';
+                return res.redirect(redirectPath);
             }
 
         })(req, res, next);
@@ -29,55 +34,38 @@ var neLocalStrategyRoutes = function (server, passport){
         passport.authenticate('localStrategySignup', function(err, user, info){
 
             if (err !== null) {
-                return next(err);
+                var redirectPath = '/signup' + '?message=Error'
+                return res.redirect(redirectPath);
             }
             else if (info.error) {
                 var redirectPath = '/signup' + '?message='+ info.error;
                 return res.redirect(redirectPath);
             }
-            else {
+            else if (info.token) {
                 return res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
                     .redirect('/profile');
+            }
+            else{
+                var redirectPath = '/signup' + '?message=UnknownError';
+                return res.redirect(redirectPath);
             }
 
         })(req, res, next);
     });
 
 
-    router.post('/login-old',
-
-        passport.authenticate('localStrategyLogin',
-            {
-                successRedirect: '/profile',
-                failureRedirect: '/login?message=AuthenticationFailed-PleaseTryAgain',
-                session: false
-            }
-        )
-    );
-
-    router.post('/signup-old',
-
-        passport.authenticate('localStrategySignup',
-            {
-                successRedirect: '/profile',
-                failureRedirect: '/signup',
-                session: false
-            }
-        )
-    );
-
     /*
-    router.post('/link',
+     router.post('/link',
 
-        passport.authenticate('neLocalStrategySignup',
-            {
-                successRedirect: '/profile',
-                failureRedirect: '/',
-                failureFlash: true
-            }
-        )
-    );
-    */
+     passport.authenticate('neLocalStrategySignup',
+     {
+     successRedirect: '/profile',
+     failureRedirect: '/',
+     failureFlash: true
+     }
+     )
+     );
+     */
 
 
 
