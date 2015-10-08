@@ -1,12 +1,11 @@
+var validateToken = require('./jwt/jwtValidate');
+var checkPermissions = require('./jwt/jwtPermissions');
 
-
-var baseRoutes =  function (router, passport, strategy, model, populatePath){
-
-    // var router = express.Router();
+var baseRoutes =  function (router, model, permissionsArray, populatePath){
 
     router.get('/',
 
-        passport.authenticate(strategy, {session: false}),
+        validateToken(), checkPermissions(permissionsArray),
 
         function(req, res){
 
@@ -23,7 +22,7 @@ var baseRoutes =  function (router, passport, strategy, model, populatePath){
 
     router.get('/:_id',
 
-        passport.authenticate(strategy, {session: false}),
+        validateToken(), checkPermissions(permissionsArray),
 
         function(req, res){
 
@@ -57,7 +56,7 @@ var baseRoutes =  function (router, passport, strategy, model, populatePath){
 
     router.put('/:_id',
 
-        passport.authenticate(strategy, {session: false}),
+        validateToken(), checkPermissions(permissionsArray),
 
         function(req, res){
 
@@ -144,7 +143,7 @@ var baseRoutes =  function (router, passport, strategy, model, populatePath){
 
     router.delete('/:_id',
 
-        passport.authenticate(strategy, {session: false}),
+        validateToken(), checkPermissions(permissionsArray),
 
         function(req, res){
 
@@ -171,7 +170,7 @@ var baseRoutes =  function (router, passport, strategy, model, populatePath){
 
     router.post('/',
 
-        passport.authenticate(strategy, {session: false}),
+        validateToken(), checkPermissions(permissionsArray),
 
         function(req, res){
 

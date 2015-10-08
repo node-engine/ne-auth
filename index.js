@@ -74,13 +74,26 @@ var neAuth = {
 
     },
 
-    apiRoutes: function (server, passport){
+    apiRoutes: function (server, passport, options){
 
-        var routerForSuper = express.Router();
-        var strategyNameForSuper = "neSuperTokenStrategy";
-        var populatePathForSuper = "";
-        apiRoutesTemplate(routerForSuper, passport, strategyNameForSuper, null, populatePathForSuper);
-        server.use('/admin/api/tokens/admin', routerForSuper);
+        /*
+
+         var routerForSuper = express.Router();
+         var strategyNameForSuper = "neSuperTokenStrategy";
+         var populatePathForSuper = "";
+         apiRoutesTemplate(routerForSuper, null, strategyNameForSuper, null, populatePathForSuper);
+         server.use('/admin/api/tokens/admin', routerForSuper);
+
+         */
+
+        var routerForUsers = express.Router();
+        var permissionsArrayForUsers = ['admin'];
+        var populatePathForUsers = ""
+        if (options && options.userDetail === true){
+            populatePathForUsers = "neuserdetail";
+        }
+        apiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
+        server.use('/api/users', routerForUsers);
 
     },
 

@@ -14,7 +14,7 @@ var neUsersSchema = new Schema({
     },
     detail: {
         type: Schema.ObjectId,
-        ref: 'neUserDetail',
+        ref: 'neuserdetail',
         default: undefined
     },
     permissions:[
