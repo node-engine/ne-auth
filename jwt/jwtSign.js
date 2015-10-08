@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 
 var jwtSign = function (user, tokenExpire){
 
-    var expire = 3600000
+    var expire = 3600000;
     if(tokenExpire){
         expire = tokenExpire
     }
@@ -29,4 +29,4 @@ var jwtSign = function (user, tokenExpire){
 
 }
 
-module.exports = jwtSign
+module.exports = jwtSign;

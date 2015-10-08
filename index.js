@@ -22,6 +22,7 @@ var neUsersModel = require ('./models/neUsersModel');
 var apiRoutesTemplate = require('./apiRoutesTemplate');
 
 
+
 ////////////////////////////////////////////////////////////
 
 var neAuth = {
@@ -53,41 +54,14 @@ var neAuth = {
 
     },
 
-    validateToken: function (){
-
-        var checkJwt = require('express-jwt');
-
-        return checkJwt({
-            secret: process.env.JWT_SECRET,
-            requestProperty: 'claims',
-            getToken: function fromHeaderOrQuerystring(req) {
-                if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-                    return req.headers.authorization.split(' ')[1];
-                }
-                else if (req.query && req.query.token) {
-                    return req.query.token;
-                }
-                else if (req.cookies && req.cookies.token) {
-                    return req.cookies.token;
-                }
-                return null;
-            }
-        })
+    validateToken: function(){
+        var jwtValidate = require('./jwt/jwtValidate');
+        jwtValidate()
     },
 
     checkPermissions: function (permissions) {
-        return function (req, res, next) {
-            var tokenPermissions = req.claims.scope;
-            var check = _.any(permissions, function (scope) {
-                return _.contains(tokenPermissions, scope);
-            });
-            if(check){
-                next();
-            }
-            else{
-                res.redirect('/login?message=AccessDenied:InsufficientPermissions').status(401);
-            }
-        }
+        var jwtPermissions = require('./jwt/jwtPermissions');
+        jwtPermissions(permissions)
     },
 
     authRoutes: function (server, passport){
