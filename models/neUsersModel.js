@@ -5,17 +5,17 @@ var bcrypt   = require('bcrypt-nodejs');
 var neUsersSchema = new Schema({
     profile: {
         name: {
-            displayName: {type: String, required: true, default: "UnknownPerson"},
+            displayName: {type: String, required: true, default: "Unknown Person"},
             nameFirst: {type: String, default: undefined},
-            nameLast: {type: String, default: undefined},
+            nameLast: {type: String, default: undefined}
         },
         emails: [{type: String}],
-        phones: [{type: String}],
-        detail: {
-            type: Schema.ObjectId,
-            ref: 'neUserDetail',
-            default: undefined
-        }
+        phones: [{type: String}]
+    },
+    detail: {
+        type: Schema.ObjectId,
+        ref: 'neUserDetail',
+        default: undefined
     },
     permissions:[
         {type: String, default: "reader"}
