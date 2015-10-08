@@ -28,8 +28,10 @@ var neLocalStrategySignup = function  (passport, neUsersModel) {
 
                         newUser.local.email = email;
                         newUser.local.password = newUser.generateHash(password);
+                        newUser.local.active = true;
                         newUser.profile.emails.push(email);
                         newUser.permissions.push("reader");
+
 
                         newUser.save(function(err) {
                             if (err){
