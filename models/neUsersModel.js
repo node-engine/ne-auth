@@ -17,27 +17,9 @@ var neUsersSchema = new Schema({
             default: undefined
         }
     },
-    permissions:{
-        admin:  {type: Boolean, default: false}
-    },
-    tokens: {
-        neAdmin:{
-            type: Schema.ObjectId,
-            ref: 'neAdminTokens',
-            default: undefined
-        },
-        neEditor:{
-            type: Schema.ObjectId,
-            ref: 'neEditorTokens',
-            default: undefined
-
-        },
-        neReader:{
-            type: Schema.ObjectId,
-            ref: 'neReaderTokens',
-            default: undefined
-        }
-    },
+    permissions:[
+        {type: String, default: "reader"}
+    ],
     local: {
         active: {type: Boolean, default: false},
         email: {type: String, default: undefined},
@@ -51,7 +33,7 @@ var neUsersSchema = new Schema({
     log: [
         {
             timeStamp:{type: String, default: new Date()},
-            event:{type: String, default: "Not event description provided"}
+            description:{type: String, default: "Not event description provided"}
         }
     ],
     createdAt:{type: String, required: true, default: new Date()}

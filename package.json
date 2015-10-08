@@ -1,6 +1,6 @@
 {
   "name": "ne-auth",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Description",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
   "readme": "# ne-passport (Node Engine Auth)",
   "readmeFilename": "readme.md",
   "gitHead": "4b734605912871ce286cd4999bb6a40c65a39477",
-  "_id": "ne-passport@1.0.0",
-  "_shasum": "f146a35b42468d0761bee066c60a7019c7e6ccf5",
-  "_from": "ne-passport@*"
+  "_id": "ne-auth@1.0.0",
+  "_shasum": "2a9ed25480e1c006c470dd88c6ae4707d9505b2d",
+  "_from": "ne-auth@*"
 }

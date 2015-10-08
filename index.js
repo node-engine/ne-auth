@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var babel = require('gulp-babel');
 
 var fs = require ('fs');
+var _ = require('lodash');
 
 
 //////////////////////////////
@@ -11,12 +12,6 @@ var fs = require ('fs');
 //////////////////////////////
 
 var neSuperToken = process.env.NE_SUPER_TOKEN;
-
-var neAdminTokensModel = require ('./models/neAdminTokensModel');
-
-var neEditorTokensModel = require ('./models/neEditorTokensModel');
-
-var neReaderTokensModel = require ('./models/neReaderTokensModel');
 
 var neUsersModel = require ('./models/neUsersModel');
 
@@ -29,7 +24,7 @@ var apiRoutesTemplate = require('./apiRoutesTemplate');
 
 ////////////////////////////////////////////////////////////
 
-var nePassport = {
+var neAuth = {
 
 
 //////////////////////////////
@@ -38,10 +33,6 @@ var nePassport = {
 
     neSuperToken: neSuperToken,
 
-    neAdminTokens: neAdminTokensModel,
-
-    neEditorTokens: neEditorTokensModel,
-
     neUsers: neUsersModel,
 
     init: function (server, passport){
@@ -49,56 +40,63 @@ var nePassport = {
         var neSuperTokenStrategy = require('./strategies/neSuperTokenStrategy');
         neSuperTokenStrategy(passport, neSuperToken);
 
-        var neAdminTokensStrategy = require('./strategies/neAdminTokensStrategy');
-        neAdminTokensStrategy(passport, neAdminTokensModel);
+        var localStrategyLogin = require('./strategies/localStrategyLogin');
+        localStrategyLogin(passport, neUsersModel);
 
-        var neEditorTokensStrategy = require('./strategies/neEditorTokensStrategy');
-        neEditorTokensStrategy(passport, neEditorTokensModel);
+        var localStrategySignup = require('./strategies/localStrategySignup');
+        localStrategySignup(passport, neUsersModel);
 
-        var neLocalStrategyLogin = require('./strategies/neLocalStrategyLogin');
-        neLocalStrategyLogin(passport, neUsersModel);
-
-        var neLocalStrategySignup = require('./strategies/neLocalStrategySignup');
-        neLocalStrategySignup(passport, neUsersModel);
-
-        var neFacebookStrategy = require('./strategies/neFacebookStrategy');
-        neFacebookStrategy(passport, neUsersModel);
-
-        /*
-        server.use(flash());
-
-        passport.serializeUser(function(user, done){
-            done(null, user.id);
-        });
-
-        passport.deserializeUser(function (id, done){
-            neUsersModel.findById(id, function(err, user){
-                done(err, user);
-            })
-        });
-
-        //secret:'anystring'
-        server.use(expressSession(
-            {
-                secret: 'thesecretsvdfvsdfvsdfvdsfvdfv',
-                saveUninitialized: true,
-                resave: false
-            }
-        ));
-        */
+        var facebookStrategy = require('./strategies/facebookStrategy');
+        facebookStrategy(passport, neUsersModel);
 
         server.use(passport.initialize());
-        server.use(passport.session());
 
+    },
+
+    validateToken: function (){
+
+        var checkJwt = require('express-jwt');
+
+        return checkJwt({
+            secret: process.env.JWT_SECRET,
+            requestProperty: 'claims',
+            getToken: function fromHeaderOrQuerystring(req) {
+                if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+                    return req.headers.authorization.split(' ')[1];
+                }
+                else if (req.query && req.query.token) {
+                    return req.query.token;
+                }
+                else if (req.cookies && req.cookies.token) {
+                    return req.cookies.token;
+                }
+                return null;
+            }
+        })
+    },
+
+    checkPermissions: function (permissions) {
+        return function (req, res, next) {
+            var tokenPermissions = req.claims.scope;
+            var check = _.any(permissions, function (scope) {
+                return _.contains(tokenPermissions, scope);
+            });
+            if(check){
+                next();
+            }
+            else{
+                res.redirect('/login?message=AccessDenied:InsufficientPermissions').status(401);
+            }
+        }
     },
 
     authRoutes: function (server, passport){
 
-        var neLocalStrategyRoutes = require('./authRoutes/neLocalStrategyRoutes');
-        neLocalStrategyRoutes(server, passport);
+        var localStrategyRoutes = require('./authRoutes/localStrategyRoutes');
+        localStrategyRoutes(server, passport);
 
-        var neFacebookStrategyRoutes = require('./authRoutes/neFacebookStrategyRoutes');
-        neFacebookStrategyRoutes(server, passport);
+        var facebookStrategyRoutes = require('./authRoutes/facebookStrategyRoutes');
+        facebookStrategyRoutes(server, passport);
 
     },
 
@@ -107,22 +105,8 @@ var nePassport = {
         var routerForSuper = express.Router();
         var strategyNameForSuper = "neSuperTokenStrategy";
         var populatePathForSuper = "";
-        apiRoutesTemplate(routerForSuper, passport, strategyNameForSuper, neAdminTokensModel, populatePathForSuper);
+        apiRoutesTemplate(routerForSuper, passport, strategyNameForSuper, null, populatePathForSuper);
         server.use('/admin/api/tokens/admin', routerForSuper);
-
-
-        var routerForAdmin = express.Router();
-        var strategyNameForAdmin = "neAdminTokensStrategy";
-        var populatePathForAdmin = "";
-        apiRoutesTemplate(routerForAdmin, passport, strategyNameForAdmin, neUsersModel, populatePathForAdmin);
-        server.use('/admin/api/users', routerForAdmin);
-
-
-        var routerForEditor = express.Router();
-        var strategyNameForEditor = "neAdminTokensStrategy";
-        var populatePathForEditor = "";
-        apiRoutesTemplate(routerForEditor, passport, strategyNameForEditor, neEditorTokensModel, populatePathForEditor);
-        server.use('/admin/api/tokens/editor', routerForEditor);
 
     },
 
@@ -158,8 +142,6 @@ var nePassport = {
 // neSuperAdmin
 //////////////////////////////
 
-
-
     neSuperStrategyRoutesUserAssign: function (server, passport){
 
         var router = express.Router();
@@ -171,121 +153,11 @@ var nePassport = {
             passport.authenticate(strategyName, {session: false}),
 
             function(req, res){
-
                 console.log(req.body)
-
-                var setUserOnToken = function(){
-
-                    var f1 = '_id';
-                    var v1 = req.body.tokenId;
-                    var q1 = {};
-                    q1[f1] = v1;
-
-                    var config = {};
-                    config['multi'] = false;
-                    if (req.query.multi){
-                        config['multi'] = true;
-                    }
-
-                    console.log("--------------------");
-                    console.log("Put request received");
-
-                    var fs1 = "user";
-                    var vs1 = req.body.userId;
-                    var s1 = {};
-                    s1[fs1] = vs1;
-
-                    if (vs1 != null) {
-                        neAdminTokensModel
-                            .update(
-                            q1,
-                            {
-                                $set: s1
-                            },
-                            config
-                        )
-                            .exec(function (err, doc){
-                                //res.send(doc);
-                            });
-                        console.log("Put request executed using query params");
-                        console.log("--------------------");
-                    }
-                    else if (vs1 = null ){
-                        var msg = "ERROR: No vs1 query param specified";
-                        console.error(msg);
-                        //res.send(msg);
-                        console.log("--------------------");
-                    }
-
-
-                    else {
-                        var msg = "ERROR: Unknown reason";
-                        console.error(msg);
-                        //res.send(msg);
-                        console.log("--------------------");
-                    }
-                };
-
-                var setTokenOnUser = function() {
-
-                    var f1 = '_id';
-                    var v1 = req.body.userId;
-                    var q1 = {};
-                    q1[f1] = v1;
-
-                    var config = {};
-                    config['multi'] = false;
-                    if (req.query.multi) {
-                        config['multi'] = true;
-                    }
-
-                    console.log("--------------------");
-                    console.log("Put request received");
-
-                    var fs1 = "tokens.neAdmin";
-                    var vs1 = req.body.tokenId;
-                    var s1 = {};
-                    s1[fs1] = vs1;
-
-                    if (vs1 != null) {
-                        neUsersModel
-                            .update(
-                            q1,
-                            {
-                                $set: s1
-                            },
-                            config
-                        )
-                            .exec(function (err, doc) {
-                                //res.send(doc);
-                            });
-                        console.log("Put request executed using query params");
-                        console.log("--------------------");
-                    }
-                    else if (vs1 = null) {
-                        var msg = "ERROR: No vs1 query param specified";
-                        console.error(msg);
-                        //res.send(msg);
-                        console.log("--------------------");
-                    }
-
-                    else {
-                        var msg = "ERROR: Unknown reason";
-                        console.error(msg);
-                        //res.send(msg);
-                        console.log("--------------------");
-                    }
-                };
-
-
-                setUserOnToken();
-                setTokenOnUser();
-                res.redirect('/super?super_token=super&admin_token=admin')
             });
 
 
         server.use('/admin/api/tokens/admin/touser', router);
-
     },
 
 ////////////////////////////////////////////////
@@ -294,7 +166,7 @@ var nePassport = {
 
     gulpCompileHandlers: function (){
 
-        gulp.src('./node_modules/ne-passport/handlers/*.js')
+        gulp.src('./node_modules/ne-auth/handlers/*.js')
             .pipe(babel())
             .pipe(gulp.dest('./app/handlers/'));
 
@@ -303,107 +175,5 @@ var nePassport = {
     }
 };
 
-module.exports = nePassport;
+module.exports = neAuth;
 
-
-
-/*
-
- routes: function (server, passport){
-
- server.post('/passportget', function(req, res){
-
- var obj = req.body;
- var newDoc = new User(obj);
- newDoc.save(function (err, newDoc){
- if (err) return console.error(err);
- res.send(newDoc)
- })
-
- });
-
- server.get('/passportget',
- passport.authenticate('neMongoRestStrategy', {session: false}),
- function(req, res){
- res.json({
- test: 'This is the data'
- })
- });
-
- }
-
- */
-
-
-/*
-
- // process.nextTick(function(){
- User.findOne({'local.username': username}, function(err, user){
- if (err){
- return  done(err);
- }
-
- if (user){
- return done(null, false  ,req.flash('signupMessage', 'Email already used'));
- }
-
- else {
- var newUser = new User();
- newUser.local.username = username;
- newUser.local.password = password;
-
- newUser.save(function(err){
- if (err){
- throw err;
- }
- else {
- return done(null, newUser);
- }
- })
- }
- });
- // });
-
-
- */
-
-
-/*
-
- passport.use('passportLocal', new passportLocal({
- usernameField: 'username',
- passwordField: 'password',
- passRequestToCallback: true
- },
- function(username, password, done) {
-
- //process.nextTick(function() {
-
- User.findOne({'local.username': username}, function (err, user) {
- if (err) {
- return done(err);
- }
-
- if (user) {
- return done(user);
- }
-
- else {
- var newUser = new User();
- newUser.local.username = username;
- newUser.local.password = password;
- newUser.save(function (err) {
- if (err) {
- throw err;
- }
- else {
- return done(null,newUser) ;
- }
- })
- }
- })
- //})
- }
- ))
-
- */

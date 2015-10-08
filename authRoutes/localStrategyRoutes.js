@@ -7,17 +7,38 @@ var neLocalStrategyRoutes = function (server, passport){
 
     router.post('/login', function(req,res, next){
 
-        passport.authenticate('neLocalStrategyLogin', function(err, user, info){
+        passport.authenticate('localStrategyLogin', function(err, user, info){
 
             if (err !== null) {
                 return next(err);
             }
-            if (user === null) {
-                var redirectPath = '/login' + '?message=' + info.message;
+            else if (info.error) {
+                var redirectPath = '/login' + '?message='+ info.error;
                 return res.redirect(redirectPath);
             }
-            res.cookie('neAuth' ,info.token, { httpOnly: true, expire : new Date() + info.tokenExpire })
-                .send('Cookie is set');
+            else {
+                return res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
+                    .redirect('/profile');
+            }
+
+        })(req, res, next);
+    });
+
+    router.post('/signup', function(req,res, next){
+
+        passport.authenticate('localStrategySignup', function(err, user, info){
+
+            if (err !== null) {
+                return next(err);
+            }
+            else if (info.error) {
+                var redirectPath = '/signup' + '?message='+ info.error;
+                return res.redirect(redirectPath);
+            }
+            else {
+                return res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
+                    .redirect('/profile');
+            }
 
         })(req, res, next);
     });
@@ -25,7 +46,7 @@ var neLocalStrategyRoutes = function (server, passport){
 
     router.post('/login-old',
 
-        passport.authenticate('neLocalStrategyLogin',
+        passport.authenticate('localStrategyLogin',
             {
                 successRedirect: '/profile',
                 failureRedirect: '/login?message=AuthenticationFailed-PleaseTryAgain',
@@ -34,9 +55,9 @@ var neLocalStrategyRoutes = function (server, passport){
         )
     );
 
-    router.post('/signup',
+    router.post('/signup-old',
 
-        passport.authenticate('neLocalStrategySignup',
+        passport.authenticate('localStrategySignup',
             {
                 successRedirect: '/profile',
                 failureRedirect: '/signup',
