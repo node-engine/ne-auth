@@ -13,7 +13,7 @@ var jwtSign = function (user, tokenExpire){
     var token = jwt.sign(
         {
             // payload goes here
-            name: user.profile.name.displayName,
+            displayName: user.profile.name.displayName,
             user: user._id,
             scope: user.permissions
         },
