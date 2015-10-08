@@ -15,7 +15,7 @@ var jwtSign = function (user, tokenExpire){
             // payload goes here
             displayName: user.profile.name.displayName,
             user: user._id,
-            scope: user.permissions
+            permissions: user.permissions
         },
         process.env.JWT_SECRET,
         {

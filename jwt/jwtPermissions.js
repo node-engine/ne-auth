@@ -4,7 +4,7 @@ var _ = require('lodash');
 var checkPermissions = function (permissions) {
 
     return function (req, res, next) {
-        var tokenPermissions = req.claims.scope;
+        var tokenPermissions = req.claims.permissions;
         var check = _.any(permissions, function (scope) {
             return _.contains(tokenPermissions, scope);
         });
