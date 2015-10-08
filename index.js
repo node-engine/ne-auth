@@ -50,6 +50,12 @@ var neAuth = {
         var localStrategySignup = require('./strategies/localStrategySignup');
         localStrategySignup(passport, neUsersModel);
 
+        var localStrategyChangeEmail = require('./strategies/localStrategyChangeEmail');
+        localStrategyChangeEmail(passport, neUsersModel);
+
+        var localStrategyChangePassword = require('./strategies/localStrategyChangePassword');
+        localStrategyChangePassword(passport, neUsersModel);
+
         var facebookStrategy = require('./strategies/facebookStrategy');
         facebookStrategy(passport, neUsersModel);
 
