@@ -56,12 +56,12 @@ var neAuth = {
 
     validateToken: function(){
         var jwtValidate = require('./jwt/jwtValidate');
-        jwtValidate()
+        return jwtValidate()
     },
 
     checkPermissions: function (permissions) {
         var jwtPermissions = require('./jwt/jwtPermissions');
-        jwtPermissions(permissions)
+        return jwtPermissions(permissions)
     },
 
     authRoutes: function (server, passport){
