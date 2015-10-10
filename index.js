@@ -8,62 +8,79 @@ var _ = require('lodash');
 
 var jwtValidate = require('./jwt/jwtValidate');
 
-
-
 //////////////////////////////
-// Models
+// Import support modules
 //////////////////////////////
 
 var neSuperToken = process.env.NE_SUPER_TOKEN;
 
 var neUsersModel = require ('./users/neUsersModel');
 
-
-////////////////////////////////////////////////////////////
-
-
 var usersApiRoutesTemplate = require('./users/usersApiRoutesTemplate');
-
-
-
-////////////////////////////////////////////////////////////
-
-var neAuth = {
 
 
 //////////////////////////////
 // Setup
 //////////////////////////////
 
-    neSuperToken: neSuperToken,
+var neAuth = {
 
     neUsers: neUsersModel,
 
+    config: function (passport){
+
+        //Configure strategies
+        var dirToRead = __dirname + "/strategies";
+        fs.readdirSync(dirToRead).forEach(function(filename) {
+
+            var requirePath = "./strategies/" + filename;
+            var strategy = require(requirePath);
+            strategy(passport, neUsersModel);
+
+        });
+
+    },
+
     init: function (server, passport){
-
-        var neSuperTokenStrategy = require('./strategies/neSuperTokenStrategy');
-        neSuperTokenStrategy(passport, neSuperToken);
-
-        var localStrategyLogin = require('./strategies/localStrategyLogin');
-        localStrategyLogin(passport, neUsersModel);
-
-        var localStrategySignup = require('./strategies/localStrategySignup');
-        localStrategySignup(passport, neUsersModel);
-
-        var localStrategyChangeEmail = require('./strategies/localStrategyChangeEmail');
-        localStrategyChangeEmail(passport, neUsersModel);
-
-        var localStrategyChangePassword = require('./strategies/localStrategyChangePassword');
-        localStrategyChangePassword(passport, neUsersModel);
-
-        var facebookStrategy = require('./strategies/facebookStrategy');
-        facebookStrategy(passport, neUsersModel);
 
         server.use(passport.initialize());
 
         server.use(jwtValidate());
 
     },
+
+    routes: function (server, passport, options){
+
+        //Configure routes
+        var dirToRead = __dirname + "/routes";
+        fs.readdirSync(dirToRead).forEach(function(filename) {
+
+            var requirePath = "./routes/" + filename;
+            var route = require(requirePath);
+            route(server, passport);
+
+        });
+
+        // Configure API routes
+        if (options && options.insecure === true){
+            var routerForUsersSuper = express.Router();
+            var populatePathForUsersSuper = "";
+            var permissionsArrayForUsersSuper = ['reader'];
+            usersApiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
+            server.use('/api/users', routerForUsers);
+        }
+        else{
+            var routerForUsers = express.Router();
+            var permissionsArrayForUsers = ['admin'];
+            var populatePathForUsers = "";
+            if (options && options.usersDetail === true){
+                populatePathForUsers = "neusersdetail";
+            }
+            usersApiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
+            server.use('/api/users', routerForUsers);
+        }
+    },
+
 
     validateToken: function(){
         var jwtValidate = require('./jwt/jwtValidate');
@@ -73,50 +90,6 @@ var neAuth = {
     checkPermissions: function (permissions) {
         var jwtPermissions = require('./jwt/jwtPermissions');
         return jwtPermissions(permissions)
-    },
-
-    authRoutes: function (server, passport){
-
-        var localStrategyRoutes = require('./authRoutes/localStrategyRoutes');
-        localStrategyRoutes(server, passport);
-
-        var logoutRoute = require('./authRoutes/logoutRoute');
-        logoutRoute(server, passport);
-
-        var facebookStrategyRoutes = require('./authRoutes/facebookStrategyRoutes');
-        facebookStrategyRoutes(server, passport);
-
-    },
-
-    usersApiRoutes: function (server, passport, options){
-
-        /*
-
-         var routerForSuper = express.Router();
-         var strategyNameForSuper = "neSuperTokenStrategy";
-         var populatePathForSuper = "";
-         apiRoutesTemplate(routerForSuper, null, strategyNameForSuper, null, populatePathForSuper);
-         server.use('/admin/api/tokens/admin', routerForSuper);
-
-         */
-
-        var routerForUsers = express.Router();
-        var permissionsArrayForUsers = ['admin'];
-        var populatePathForUsers = "";
-        if (options && options.usersDetail === true){
-            populatePathForUsers = "neusersdetail";
-        }
-        usersApiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
-        server.use('/api/users', routerForUsers);
-
-        if (options && options.insecure === true){
-            var routerForUsersSuper = express.Router();
-            var populatePathForUsersSuper = "";
-            var permissionsArrayForUsersSuper = ['reader'];
-            usersApiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
-            server.use('/api/users', routerForUsers);
-        }
-
     },
 
     adminRoutes: function (server, passport){
@@ -146,33 +119,6 @@ var neAuth = {
 
     },
 
-
-//////////////////////////////
-// neSuperAdmin
-//////////////////////////////
-
-    neSuperStrategyRoutesUserAssign: function (server, passport){
-
-        var router = express.Router();
-        var strategyName = "neSuperTokenStrategy";
-        var populatePath = "";
-
-        router.post('/',
-
-            passport.authenticate(strategyName, {session: false}),
-
-            function(req, res){
-                console.log(req.body)
-            });
-
-
-        server.use('/admin/api/tokens/admin/touser', router);
-    },
-
-////////////////////////////////////////////////
-// Passport Strategies for other ne Modules
-////////////////////////////////////////////////
-
     gulpCompileHandlers: function (){
 
         gulp.src('./node_modules/ne-auth/handlers/*.js')
@@ -185,4 +131,73 @@ var neAuth = {
 };
 
 module.exports = neAuth;
+
+
+
+/*
+
+
+
+ var routerForSuper = express.Router();
+ var strategyNameForSuper = "neSuperTokenStrategy";
+ var populatePathForSuper = "";
+ apiRoutesTemplate(routerForSuper, null, strategyNameForSuper, null, populatePathForSuper);
+ server.use('/admin/api/tokens/admin', routerForSuper);
+
+
+
+
+
+ var neSuperTokenStrategy = require('./strategies/neSuperTokenStrategy');
+ neSuperTokenStrategy(passport, neSuperToken);
+
+
+
+ //////////////////////////////
+ // neSuperAdmin
+ //////////////////////////////
+
+ neSuperStrategyRoutesUserAssign: function (server, passport){
+
+ var router = express.Router();
+ var strategyName = "neSuperTokenStrategy";
+ var populatePath = "";
+
+ router.post('/',
+
+ passport.authenticate(strategyName, {session: false}),
+
+ function(req, res){
+ console.log(req.body)
+ });
+
+
+ server.use('/admin/api/tokens/admin/touser', router);
+ },
+
+
+ routes: function (server, passport){
+
+
+
+ var localStrategyRoutes = require('./authRoutes/localStrategyRoutes');
+ localStrategyRoutes(server, passport);
+
+ var logoutRoute = require('./authRoutes/logoutRoute');
+ logoutRoute(server, passport);
+
+ var facebookStrategyRoutes = require('./authRoutes/facebookStrategyRoutes');
+ facebookStrategyRoutes(server, passport);
+
+
+
+ },
+
+ neSuperToken: neSuperToken
+
+
+
+
+
+ */
 

@@ -19,7 +19,7 @@ var handler = React.createClass({
         var self = this;
         console.log(self.props);
 
-        if(self.props.data.nedb1.detail){
+        if(self.props.data && self.props.data.nedb1 && self.props.data.nedb1.detail){
 
             var flattenObject = function(ob) {
                 var toReturn = {};
@@ -89,7 +89,7 @@ var handler = React.createClass({
 
         return (
             <body>
-            <h2 id="main-title">This is the Users Handler</h2>
+            <h2 id="main-title">This is the User Edit Handler</h2>
             <div style={{background:'grey',color:'black', margin:'20px',padding:'20px'}}>
                 <h3>Name</h3>
                 <p>{self.props.data.nedb1[0].profile.name.displayName}</p>
@@ -125,16 +125,18 @@ var handler = React.createClass({
                 <h3>Connected Services</h3>
                 <div>
                     <h4>Local</h4>
-                    <form action="/auth/local/change-email" method="post">
+                    <form action="/auth/local/change/email" method="post">
                         <label>Email</label><br/>
                         <input type="hidden" name="_id" value={self.props.meta.claims.user} readOnly />
                         <input type="text" name="email" placeholder={self.props.data.nedb1[0].local.email}/><br/>
                         <input type="submit" value="Change Login Email"/>
                     </form>
                     <br/>
-                    <form action="/auth/local/change-password" method="post">
-                        <label>Password</label><br/>
+                    <form action="/auth/local/change/password" method="post">
                         <input type="hidden" name="_id" value={self.props.meta.claims.user} readOnly />
+                        <label>Old Password</label><br/>
+                        <input type="password" name="oldpassword" placeholder={self.props.data.nedb1[0].local.password}/><br/>
+                        <label>New Password</label><br/>
                         <input type="password" name="password" placeholder={self.props.data.nedb1[0].local.password}/><br/>
                         <input type="submit" value="Change Password"/>
                     </form>

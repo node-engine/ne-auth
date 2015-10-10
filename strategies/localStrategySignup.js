@@ -32,7 +32,6 @@ var neLocalStrategySignup = function  (passport, neUsersModel) {
                         newUser.profile.emails.push(email);
                         newUser.permissions.push("reader");
 
-
                         newUser.save(function(err) {
                             if (err){
                                 console.log(err);

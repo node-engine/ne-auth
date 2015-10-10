@@ -29,6 +29,7 @@ var handler = React.createClass({
                     <li><a href="/profile">{text}</a></li>
                     <li><a href="/admin">Admin</a></li>
                     <li><a href="/admin/users">Users</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
                 </ul>
         }
         else {
@@ -38,42 +39,26 @@ var handler = React.createClass({
                 </ul>
         }
 
+        if(self.props.meta.query.message){
+            var message = self.props.meta.query.message
+        }
+        else{
+            var message = ""
+        }
+
         console.log(self.props);
         console.log(self.props.data.nedb1);
 
-        var facebook;
-        if (self.props.data && self.props.data.nedb1[0]){
-            if(self.props.data.nedb1[0].facebook.active === false){
-
-                facebook = (
-                    <div>
-                        <h3>Facebook</h3>
-                        <p>You are not connected to facebook</p>
-                    </div>
-                )
-            }
-            else {
-                var facebookId = self.props.data.nedb1[0].facebook.id;
-                var facebookToken = self.props.data.nedb1[0].facebook.token;
-                facebook = (
-                    <div>
-                        <h3>Facebook</h3>
-
-                        <p>Id: <br/>{facebookId}</p>
-
-                        <p>Token: <br/>{facebookToken}</p>
-                    </div>
-                )
-            }
-        }
-
         var profile;
         if (self.props.meta.claims && self.props.meta.claims.displayName){
+
+            var linkToUser = "/admin/users/" + self.props.meta.claims.user;
             var greating = "Welcome " + self.props.meta.claims.displayName;
             profile = (
                 <div>
                     <p>{greating}</p>
-                    {facebook}
+                    <p><a href={linkToUser}>Edit profile</a><br/></p>
+                    <p><a href="/auth/logout">Logout</a></p>
                 </div>
             )
         }
@@ -84,12 +69,13 @@ var handler = React.createClass({
                 </div>
             )
         }
+
         return (
             <body>
             <h2 id="main-title">This is the Profile Handler</h2>
             {adminnav}
             {profile}
-
+            {message}
             </body>
         )
     }

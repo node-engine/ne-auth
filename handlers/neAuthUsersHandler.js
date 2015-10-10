@@ -4,16 +4,16 @@ var Header = require('../components/sections/Header');
 var Footer = require('../components/sections/Footer');
 
 var meta = {
-    path: "/admin/users",
-    title: "Users",
-    description: "This is Users page",
-    neDataBefore: 1,
-    nedb1: {
-        pathFunction: function (meta) {
-            path = process.env.ROOTURL + "/api/users?token="+ meta.token;
-            return path
+        path: "/admin/users",
+        title: "Users",
+        description: "This is Users page",
+        neDataBefore: 1,
+        nedb1: {
+            pathFunction: function (meta) {
+                path = process.env.ROOTURL + "/api/users?token="+ meta.token;
+                return path
+            }
         }
-    }
 };
 
 var handler = React.createClass({
@@ -26,9 +26,10 @@ var handler = React.createClass({
         var users;
         if(self.props.data.nedb1){
             users = self.props.data.nedb1.map((user, index)=>{
+                var linkToUser = "/admin/users/" + user._id;
                 return (
                     <div key={index}>
-                        {user.profile.name.displayName && <p>{user.profile.name.displayName}<br/></p> }
+                        {user.profile.name.displayName && <p><a href={linkToUser}>{user.profile.name.displayName}</a><br/></p> }
                     </div>
                 )
             });
@@ -36,13 +37,13 @@ var handler = React.createClass({
 
         return (
             <body>
-            <Header {...self.props} />
-            <h2 id="main-title">This is the Users Handler</h2>
+                <Header {...self.props} />
+                <h2 id="main-title">This is the Users Handler</h2>
 
-            {neHandler.msg(self)}
-            {users}
+                {neHandler.msg(self)}
+                {users}
 
-            <Footer />
+                <Footer />
             </body>
         )
     }
