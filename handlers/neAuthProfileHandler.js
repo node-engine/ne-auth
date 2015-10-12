@@ -4,15 +4,15 @@ var meta = {
     path: "/profile",
     title: "Profile Page",
     description: "User profile page",
-    neDataBefore: 1,
-    nedb1: {
-        pathFunction: function (meta) {
-            path = process.env.ROOTURL + "/api/users" + "/" + meta.claims.user +"?token="+ meta.token;
-            return path
-        },
-        cycle: false,
-        search: false
-    }
+    nerbArray: [
+        {
+            nerbName: 'users',
+            pathFunction: function (meta) {
+                path = process.env.ROOTURL + "/api/users" + "/" + meta.claims.user +"?token="+ meta.token;
+                return path
+            },
+        }
+    ]
 };
 
 var handler = React.createClass({
@@ -47,7 +47,7 @@ var handler = React.createClass({
         }
 
         console.log(self.props);
-        console.log(self.props.data.nedb1);
+        console.log(self.props.data.users);
 
         var profile;
         if (self.props.meta.claims && self.props.meta.claims.displayName){
