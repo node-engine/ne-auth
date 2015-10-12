@@ -125,6 +125,12 @@ var neAuth = {
             .pipe(babel())
             .pipe(gulp.dest('./app/handlers/'));
 
+        console.log('======================================');
+        console.log('======================================');
+        console.log('neAuth: Gulp Compile Handlers');
+        console.log('======================================');
+        console.log('======================================');
+
         return undefined
 
     }
