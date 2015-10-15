@@ -1,5 +1,5 @@
 var React = require('react');
-var neHandler = require('../ne-handler');
+var neHandler = require('ne-handler');
 var Header = require('../components/sections/Header');
 var Footer = require('../components/sections/Footer');
 
@@ -42,7 +42,7 @@ var handler = React.createClass({
             <Header {...self.props} />
             <h2 id="main-title">This is the Users Handler</h2>
 
-            {neHandler.msg(self)}
+            {neHandler.message(self)}
             {users}
 
             <Footer />
