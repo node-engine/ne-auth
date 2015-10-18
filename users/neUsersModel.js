@@ -57,4 +57,4 @@ var neUsersModel = mongoose.model(
     neUsersSchema
 );
 
-module.exports = neUsersModel;
+exports.model = neUsersModel;
