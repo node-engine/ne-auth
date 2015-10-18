@@ -14,7 +14,7 @@ var jwtValidate = require('./jwt/jwtValidate');
 
 var neSuperToken = process.env.NE_SUPER_TOKEN;
 
-var neUsersModel = require ('./users/neUsersModel');
+var neUsersModel = require ('./users/neUsersModel').model;
 
 var usersApiRoutesTemplate = require('./users/usersApiRoutesTemplate');
 
@@ -61,13 +61,13 @@ var neAuth = {
 
         });
 
-        // Configure API routes
+        //Configure API routes
         if (options && options.insecure === true){
             var routerForUsersSuper = express.Router();
             var populatePathForUsersSuper = "";
             var permissionsArrayForUsersSuper = ['reader'];
             usersApiRoutesTemplate(routerForUsersSuper, neUsersModel, permissionsArrayForUsersSuper, populatePathForUsersSuper);
-            server.use('/api/users', routerForUsers);
+            server.use('/data/users', routerForUsers);
         }
         else{
             var routerForUsers = express.Router();
@@ -77,7 +77,7 @@ var neAuth = {
                 populatePathForUsers = "neusersdetail";
             }
             usersApiRoutesTemplate(routerForUsers, neUsersModel, permissionsArrayForUsers, populatePathForUsers);
-            server.use('/api/users', routerForUsers);
+            server.use('/data/users', routerForUsers);
         }
     },
 
