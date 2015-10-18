@@ -117,22 +117,6 @@ var neAuth = {
 
         server.use('/admin/api/tokens/admin/touser', routerForAdminTokenAssign);
 
-    },
-
-    gulpCompileHandlers: function (){
-
-        gulp.src('./node_modules/ne-auth/handlers/*.js')
-            .pipe(babel())
-            .pipe(gulp.dest('./app/handlers/'));
-
-        console.log('======================================');
-        console.log('======================================');
-        console.log('neAuth: Gulp Compile Handlers');
-        console.log('======================================');
-        console.log('======================================');
-
-        return undefined
-
     }
 };
 
