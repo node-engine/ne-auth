@@ -8,7 +8,7 @@ var meta = {
         {
             nerbName: 'users',
             pathFunction: function (meta) {
-                path = process.env.ROOTURL + "/api/users/" + meta.params._id + "?token="+ meta.token;
+                path = process.env.ROOTURL + "/data/users/" + meta.params._id + "?token="+ meta.token;
                 return path
             }
         }
