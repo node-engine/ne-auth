@@ -1,7 +1,5 @@
 var React = require('react');
 var neHandler = require('ne-handler');
-var Header = require('../components/sections/Header');
-var Footer = require('../components/sections/Footer');
 
 var meta = {
     path: "/admin/users",
@@ -39,13 +37,11 @@ var handler = React.createClass({
 
         return (
             <body>
-            <Header {...self.props} />
             <h2 id="main-title">This is the Users Handler</h2>
 
             {neHandler.message(self)}
             {users}
 
-            <Footer />
             </body>
         )
     }
