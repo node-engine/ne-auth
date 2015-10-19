@@ -28,7 +28,6 @@ var handler = React.createClass({
                     <li><a href="/">Home</a></li>
                     <li><a href="/profile">{text}</a></li>
                     <li><a href="/admin">Admin</a></li>
-                    <li><a href="/admin/users">Users</a></li>
                     <li><a href="/auth/logout">Logout</a></li>
                 </ul>
         }
@@ -72,10 +71,23 @@ var handler = React.createClass({
 
         return (
             <body>
-            <h2 id="main-title">This is the Profile Handler</h2>
-            {adminnav}
-            {profile}
-            {message}
+
+            <div className="ne-row-70">
+
+                <div className="ne-ccol-3s">
+                </div>
+                <div className="ne-ccol-3s">
+                    <h2 id="main-title">This is the Profile Handler</h2>
+                    {adminnav}
+                    {profile}
+                    {message}
+                </div>
+                <div className="ne-ccol-3s">
+                </div>
+
+
+            </div>
+
             </body>
         )
     }

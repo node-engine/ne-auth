@@ -22,27 +22,42 @@ var handler = React.createClass({
 
         return (
             <body>
-            <h2 id="main-title">This is the Login Page</h2>
+            <div className="ne-row-70">
 
-            {message}
-
-            <form action="/auth/local/login" method="post">
-                <div>
-                    <label>Email:</label>
-                    <input type="text" name="email"/>
+                <div className="ne-ccol-3s">
                 </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password"/>
-                </div>
-                <div>
-                    <input type="submit" value="Log In"/>
-                </div>
-            </form>
 
-            <a href="/auth/facebook" ><span></span> Facebook</a>
+                <div className="ne-ccol-3s">
 
-            <p>Dont have an account yet? <a href="/signup">Signup</a></p>
+                    <h2 id="main-title">Login Page</h2>
+
+                    {message}
+
+                    <form action="/auth/local/login" method="post">
+                        <div>
+                            <label>Email:</label>
+                            <input type="text" name="email"/>
+                        </div>
+                        <div>
+                            <label>Password:</label>
+                            <input type="password" name="password"/>
+                        </div>
+                        <div>
+                            <input type="submit" value="Log In"/>
+                        </div>
+                    </form>
+
+                    <a href="/auth/facebook" ><span></span> Facebook</a>
+
+                    <p>Dont have an account yet? <a href="/signup">Signup</a></p>
+
+                </div>
+
+
+                <div className="ne-ccol-3s">
+                </div>
+            </div>
+
 
             </body>
         )
