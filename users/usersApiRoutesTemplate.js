@@ -29,7 +29,7 @@ var baseRoutes =  function (router, model, permissionsArray, populatePath){
             res.redirect('/login?message=AccessDenied:InsufficientPermissions').status(401);
         }
 
-    })
+    });
 
     router.get('/', function(req, res){
 
