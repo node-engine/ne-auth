@@ -22,7 +22,7 @@ var handler = React.createClass({
                 </div>
 
                 <div className="ne-ccol-3s">
-                    <h2 id="main-title">This is the Signup Page</h2>
+                    <h2 id="main-title">Signup Page</h2>
 
                     <form action="/auth/local/signup" method="post">
                         <div>

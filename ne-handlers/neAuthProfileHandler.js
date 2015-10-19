@@ -77,7 +77,7 @@ var handler = React.createClass({
                 <div className="ne-ccol-3s">
                 </div>
                 <div className="ne-ccol-3s">
-                    <h2 id="main-title">This is the Profile Handler</h2>
+                    <h2 id="main-title">Profile Page</h2>
                     {adminnav}
                     {profile}
                     {message}

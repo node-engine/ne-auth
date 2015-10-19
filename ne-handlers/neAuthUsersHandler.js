@@ -37,7 +37,7 @@ var handler = React.createClass({
 
         return (
             <body>
-            <h2 id="main-title">This is the Users Handler</h2>
+            <h2 id="main-title">Users Handler</h2>
 
             {neHandler.message(self)}
             {users}
