@@ -1,10 +1,17 @@
-var express = require('express');
-
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-
 var fs = require ('fs');
-var _ = require('lodash');
+
+if (process.env.NE_AUTO) {
+    var express = require(process.env.NE_AUTO).express;
+    var _ = require(process.env.NE_AUTO).lodash;
+    var gulp = require(process.env.NE_AUTO).gulp;
+    var babel = require(process.env.NE_AUTO).babel;
+}
+else {
+    var express = require('express');
+    var _ = require('lodash');
+    var gulp = require('gulp');
+    var babel = require('gulp-babel');
+}
 
 var jwtValidate = require('./jwt/jwtValidate');
 

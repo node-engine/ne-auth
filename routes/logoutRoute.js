@@ -1,4 +1,9 @@
-var express = require('express');
+if (process.env.NE_AUTO) {
+    var express = require(process.env.NE_AUTO).express;
+}
+else {
+    var express = require('express');
+}
 
 var logoutRoute = function (server, passport){
 

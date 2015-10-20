@@ -1,4 +1,10 @@
-var passportLocal = require('passport-local').Strategy;
+if (process.env.NE_AUTO) {
+    var passportLocal = require(process.env.NE_AUTO).passportLocal.Strategy;
+}
+else {
+    var passportLocal = require('passport-local').Strategy;
+}
+
 var jwtSign = require('../jwt/jwtSign');
 
 var neLocalStrategySignup = function  (passport, neUsersModel) {

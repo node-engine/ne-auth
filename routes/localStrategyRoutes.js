@@ -1,8 +1,13 @@
-var express = require('express');
-var router = express.Router();
+if (process.env.NE_AUTO) {
+    var express = require(process.env.NE_AUTO).express;
+}
+else {
+    var express = require('express');
+}
 
 var neUsersModel = require ('../users/neUsersModel');
 var checkPermissionsReturn = require('../jwt/jwtPermissionsReturn');
+var router = express.Router();
 
 var neLocalStrategyRoutes = function (server, passport){
 

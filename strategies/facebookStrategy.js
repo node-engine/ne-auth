@@ -1,4 +1,10 @@
-var passportFacebook = require('passport-facebook').Strategy
+if (process.env.NE_AUTO) {
+    var passportFacebook = require(process.env.NE_AUTO).passportFacebook.Strategy;
+}
+else {
+    var passportFacebook = require('passport-facebook').Strategy;
+}
+
 var jwtSign = require('../jwt/jwtSign');
 
 var neFacebookStrategy = function  (passport, neUsersModel) {

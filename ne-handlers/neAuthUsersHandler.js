@@ -1,5 +1,11 @@
-var React = require('react');
-var neHandler = require('ne-handler');
+if (process.env.NE_AUTO) {
+    var React = require(process.env.NE_AUTO).react;
+    var neHandler = require(process.env.NE_AUTO).neHandler;
+}
+else {
+    var React = require("react");
+    var neHandler = require('ne-handler');
+}
 
 var meta = {
     path: "/admin/users",

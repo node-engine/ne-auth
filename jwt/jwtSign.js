@@ -1,4 +1,9 @@
-var jwt = require('jsonwebtoken');
+if (process.env.NE_AUTO) {
+    var jwt = require(process.env.NE_AUTO).jsonwebtoken
+}
+else {
+    var jwt = require('jsonwebtoken');
+}
 
 var jwtSign = function (user, tokenExpire){
 

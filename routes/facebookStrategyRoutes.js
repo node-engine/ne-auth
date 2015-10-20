@@ -1,8 +1,13 @@
-var express = require('express');
+if (process.env.NE_AUTO) {
+    var express = require(process.env.NE_AUTO).express;
+}
+else {
+    var express = require('express');
+}
+
+var router = express.Router();
 
 var facebookStrategyRoutes = function (server, passport){
-
-    var router = express.Router();
 
     router.get('/', passport.authenticate('facebookStrategy',
         {
@@ -53,6 +58,6 @@ var facebookStrategyRoutes = function (server, passport){
     */
 
     server.use('/auth/facebook', router);
-}
+};
 
 module.exports = facebookStrategyRoutes;

@@ -1,4 +1,9 @@
-var expressJwt = require('express-jwt');
+if (process.env.NE_AUTO) {
+    var expressJwt = require(process.env.NE_AUTO).expressJwt
+}
+else {
+    var expressJwt = require('express-jwt');
+}
 
 var jwtValidate = function (){
 

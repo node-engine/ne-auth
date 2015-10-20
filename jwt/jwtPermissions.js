@@ -1,4 +1,10 @@
-var _ = require('lodash');
+if (process.env.NE_AUTO) {
+    var _ = require(process.env.NE_AUTO).lodash
+}
+else {
+    var _ = require('lodash');
+}
+
 
 var checkPermissions = function (permissions) {
 

@@ -1,7 +1,12 @@
+if (process.env.NE_AUTO) {
+    var stringify = require(process.env.NE_AUTO).stringifyObject;
+}
+else {
+    var stringify = require ('stringify-object');
+}
+
 var validateToken = require('../jwt/jwtValidate');
 var checkPermissions = require('../jwt/jwtPermissions');
-var stringify = require ('stringify-object');
-
 var checkPermissionsReturn = require('../jwt/jwtPermissionsReturn');
 
 var baseRoutes =  function (router, model, permissionsArray, populatePath){
