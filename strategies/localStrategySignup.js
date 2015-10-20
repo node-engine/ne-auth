@@ -1,4 +1,4 @@
-ar neAuto;
+var neAuto;
 if(process.env.NE_AUTO){
     neAuto = process.env.NE_AUTO
 }
@@ -7,9 +7,6 @@ else {
 }
 
 var passportLocal = require(neAuto).passportLocal.Strategy || require('passport-local').Strategy;
-
-
-
 
 if (process.env.NE_AUTO) {
     var passportLocal = require(process.env.NE_AUTO).passportLocal.Strategy;
