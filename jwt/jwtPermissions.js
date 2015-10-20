@@ -1,9 +1,12 @@
-if (process.env.NE_AUTO) {
-    var _ = require(process.env.NE_AUTO).lodash
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var _ = require('lodash');
+    neAuto = "ne-auto-off"
 }
+
+var _ = require(neAuto).lodash || require('lodash');
 
 
 var checkPermissions = function (permissions) {

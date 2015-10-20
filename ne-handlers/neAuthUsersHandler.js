@@ -1,11 +1,13 @@
-if (process.env.NE_AUTO) {
-    var React = require(process.env.NE_AUTO).react;
-    var neHandler = require(process.env.NE_AUTO).neHandler;
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var React = require("react");
-    var neHandler = require('ne-handler');
+    neAuto = "ne-auto-off"
 }
+
+var React = require(neAuto).react || require('react');
+var neHandler = require(neAuto).neHandler || require('ne-handler');
 
 var meta = {
     path: "/admin/users",

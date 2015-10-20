@@ -1,9 +1,12 @@
-if (process.env.NE_AUTO) {
-    var passportFacebook = require(process.env.NE_AUTO).passportFacebook.Strategy;
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var passportFacebook = require('passport-facebook').Strategy;
+    neAuto = "ne-auto-off"
 }
+
+var passportFacebook = require(neAuto).passportFacebook.Strategy || require('passport-facebook').Strategy;
 
 var jwtSign = require('../jwt/jwtSign');
 

@@ -1,17 +1,17 @@
 var fs = require ('fs');
 
-if (process.env.NE_AUTO) {
-    var express = require(process.env.NE_AUTO).express;
-    var _ = require(process.env.NE_AUTO).lodash;
-    var gulp = require(process.env.NE_AUTO).gulp;
-    var babel = require(process.env.NE_AUTO).babel;
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var express = require('express');
-    var _ = require('lodash');
-    var gulp = require('gulp');
-    var babel = require('gulp-babel');
+    neAuto = "ne-auto-off"
 }
+
+var express = require(neAuto).express || require('express');
+var _ = require(neAuto).lodash || require('lodash');
+var gulp = require(neAuto).gulp || require('gulp');
+var babel = require(neAuto).babel || require('gulp-babel');
 
 var jwtValidate = require('./jwt/jwtValidate');
 

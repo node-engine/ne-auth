@@ -1,9 +1,13 @@
-if (process.env.NE_AUTO) {
-    var passportLocal = require(process.env.NE_AUTO).passportLocal.Strategy;
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var passportLocal = require('passport-local').Strategy;
+    neAuto = "ne-auto-off"
 }
+
+var passportLocal = require(neAuto).passportLocal.Strategy || require('passport-local').Strategy;
+
 
 var jwtSign = require('../jwt/jwtSign');
 

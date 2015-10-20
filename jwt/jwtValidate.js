@@ -1,9 +1,12 @@
-if (process.env.NE_AUTO) {
-    var expressJwt = require(process.env.NE_AUTO).expressJwt
+var neAuto;
+if(process.env.NE_AUTO){
+    neAuto = process.env.NE_AUTO
 }
 else {
-    var expressJwt = require('express-jwt');
+    neAuto = "ne-auto-off"
 }
+
+var expressJwt = require(neAuto).expressJwt || require('express-jwt');
 
 var jwtValidate = function (){
 
