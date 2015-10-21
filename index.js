@@ -1,17 +1,9 @@
 var fs = require ('fs');
 
-var neAuto;
-if(process.env.NE_AUTO){
-    neAuto = process.env.NE_AUTO
-}
-else {
-    neAuto = "ne-auto-off"
-}
-
-var express = require(neAuto).express || require('express');
-var _ = require(neAuto).lodash || require('lodash');
-var gulp = require(neAuto).gulp || require('gulp');
-var babel = require(neAuto).babel || require('gulp-babel');
+var express = require('express');
+var _ = require('lodash');
+var gulp = require('gulp');
+var babel = require('gulp-babel');
 
 var jwtValidate = require('./jwt/jwtValidate');
 

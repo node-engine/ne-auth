@@ -1,12 +1,4 @@
-var neAuto;
-if(process.env.NE_AUTO){
-    neAuto = process.env.NE_AUTO
-}
-else {
-    neAuto = "ne-auto-off"
-}
-
-var jwt = require(neAuto).jsonwebtoken || require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
 
 var jwtSign = function (user, tokenExpire){
 

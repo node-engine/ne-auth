@@ -1,12 +1,4 @@
-var neAuto;
-if(process.env.NE_AUTO){
-    neAuto = process.env.NE_AUTO
-}
-else {
-    neAuto = "ne-auto-off"
-}
-
-var stringify = require(neAuto).stringifyObject || require('stringify-object');
+var stringify = require('stringify-object');
 
 var validateToken = require('../jwt/jwtValidate');
 var checkPermissions = require('../jwt/jwtPermissions');

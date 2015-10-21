@@ -1,13 +1,5 @@
-var neAuto;
-if(process.env.NE_AUTO){
-    neAuto = process.env.NE_AUTO
-}
-else {
-    neAuto = "ne-auto-off"
-}
-
-var mongoose = require(neAuto).mongoose || require('mongoose');
-var bcrypt = require(neAuto).bcrypt || require('bcrypt-nodejs');
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
 
 var Schema = mongoose.Schema;
