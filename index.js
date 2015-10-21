@@ -2,8 +2,6 @@ var fs = require ('fs');
 
 var express = require('express');
 var _ = require('lodash');
-var gulp = require('gulp');
-var babel = require('gulp-babel');
 
 var jwtValidate = require('./jwt/jwtValidate');
 

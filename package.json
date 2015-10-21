@@ -1,6 +1,6 @@
 {
   "name": "ne-auth",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Description",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,6 @@
     "bcrypt-nodejs": "0.0.3",
     "express": "^4.13.3",
     "express-jwt": "^3.1.0",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1",
     "jsonwebtoken": "^5.4.0",
     "lodash": "^3.10.1",
     "mongoose": "^4.1.11",
