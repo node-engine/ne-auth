@@ -22,6 +22,14 @@ Dependencies
 - DU Update Dependency: A dependency is updated in the package
 
 
+# 1.4.6
+
+Release date: 201510212
+
+[BF]
+Fixed the user interface element described in 1.4.5
+
+
 # 1.4.5
 
 Release date: 201510212

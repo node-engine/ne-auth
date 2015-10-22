@@ -2,6 +2,8 @@ var express = require('express');
 
 var router = express.Router();
 
+var neUsersModel = require('../users/neUsersModel').model;
+
 var routes = function (server){
 
     router.post('/super', function(req,res, next){
@@ -48,16 +50,18 @@ var routes = function (server){
                     });
 
                 }
-                var validPassword = function (password) {
-                    if (user.validPassword(password)) {
+                /*
+                 var validPassword = function (password) {
+                 if (user.validPassword(password)) {
 
-                    }
-                    else {
-                        console.log("neAuth makeAdminWithSuperRoute: Password incorrect");
-                        return res.redirect("/login")
-                    }
-                };
-                validPassword(password)
+                 }
+                 else {
+                 console.log("neAuth makeAdminWithSuperRoute: Password incorrect");
+                 return res.redirect("/login")
+                 }
+                 };
+                 validPassword(password)
+                 */
 
             });
 
