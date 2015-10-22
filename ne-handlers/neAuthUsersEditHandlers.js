@@ -1,4 +1,5 @@
 var React = require('react');
+var element = React.createElement;
 
 
 var meta = {
@@ -83,6 +84,23 @@ var handler = React.createClass({
             });
         }
 
+
+        var makeAdmin = element(
+            "form",
+            { action: "/auth/super", method: "post" },
+            element(
+                'input',
+                {type: "hidden", name: "_id", value: self.props.data.users[0]._id}
+            ),
+            element(
+                'input',
+                {type: "text", name: "token", placeholder: "super token" }
+            ),
+            element(
+                "input",
+                { type: "submit" , value: "Make Admin"}
+            )
+        )
         /*
          <p>{self.props.data.users.profile.phone}</p>
 
@@ -128,6 +146,8 @@ var handler = React.createClass({
                                 })
                             }
                         </ul>
+                        <h4>Make Admin</h4>
+                        {makeAdmin}
                     </div>
 
                 </div>

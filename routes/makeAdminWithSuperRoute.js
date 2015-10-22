@@ -20,32 +20,37 @@ var routes = function (server){
                     console.log("neAuth makeAdminWithSuperRoute: Can not match username");
                     return res.redirect("/login");
                 }
+                if (user){
+
+                    console.log("neAuth makeAdminWithSuperRoute: Successfully authenticated");
+
+                    user.permissions.push("admin");
+
+                    user.save(function(err) {
+                        if (err){
+                            console.log(err);
+                        }
+
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("Made new admin user");
+                        console.log(user);
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+                        console.log("==================================");
+
+                        return res.redirect("/login");
+                    });
+
+                }
                 var validPassword = function (password) {
                     if (user.validPassword(password)) {
-                        console.log("neAuth makeAdminWithSuperRoute: Successfully authenticated");
 
-                        user.permissions.push("admin");
-
-                        user.save(function(err) {
-                            if (err){
-                                console.log(err);
-                            }
-
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("Made new admin user");
-                            console.log(user);
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-                            console.log("==================================");
-
-                            return res.redirect("/login");
-                        });
                     }
                     else {
                         console.log("neAuth makeAdminWithSuperRoute: Password incorrect");

@@ -2,6 +2,9 @@
 
 ## Change Tags
 
+Feature
+- FN Feature New: Added a new feature
+
 Bug
 - BF Bug fix: Fixed a bug
 
@@ -18,6 +21,13 @@ Dependencies
 - DR Remove Dependency: A  dependency is removed from the package
 - DU Update Dependency: A dependency is updated in the package
 
+
+# 1.4.5
+
+Release date: 201510212
+
+[FN]
+Added a user interface element to make a user an admin user using the super token from the user edit page.
 
 
 # 1.4.4
