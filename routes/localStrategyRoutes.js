@@ -20,7 +20,7 @@ var neLocalStrategyRoutes = function (server, passport){
             }
             else if (info.token){
                 return res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
-                    .redirect('/profile');
+                    .redirect('/');
             }
             else{
                 var redirectPath = '/login' + '?message=UnknownError';

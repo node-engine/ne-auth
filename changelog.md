@@ -22,6 +22,13 @@ Dependencies
 - DU Update Dependency: A dependency is updated in the package
 
 
+# 1.4.7
+
+Release date: 201510212
+
+[CO]
+Redirect to home after login not profile
+
 # 1.4.6
 
 Release date: 201510212

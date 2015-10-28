@@ -23,7 +23,7 @@ var facebookStrategyRoutes = function (server, passport){
                 return res.redirect(redirectPath);
             }
             res.cookie('token' ,info.token, { httpOnly: true, expire : new Date() + info.expire })
-                .redirect('/profile');
+                .redirect('/');
 
         })(req, res, next);
     });
