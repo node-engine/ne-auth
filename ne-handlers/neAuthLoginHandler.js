@@ -3,7 +3,8 @@ var React = require('react');
 var meta = {
     path: "/login",
     title: "Login",
-    description: "Login page"
+    description: "Login page",
+    css: ["/ne-style/ne-css/neAuthStyle.css", "/ne-style/ne-css/neStyleFontAwesome.css"]
 };
 
 var handler = React.createClass({
@@ -31,25 +32,36 @@ var handler = React.createClass({
 
                     <h2 id="main-title">Login Page</h2>
 
-                    {message}
+                    <div className="login-message">
+                        {message}
+                    </div>
 
-                    <form action="/auth/local/login" method="post">
-                        <div>
-                            <label>Email:</label>
-                            <input type="text" name="email"/>
-                        </div>
-                        <div>
-                            <label>Password:</label>
-                            <input type="password" name="password"/>
-                        </div>
-                        <div>
-                            <input type="submit" value="Log In"/>
-                        </div>
-                    </form>
+                    <div className="login-form">
+                        <form action="/auth/local/login" method="post">
+                            <div>
+                                <label>Email:</label>
+                                <input type="text" name="email"/>
+                            </div>
+                            <br/>
+                            <div>
+                                <label>Password:</label>
+                                <input type="password" name="password"/>
+                            </div>
+                            <br/>
+                            <div>
+                                <input type="submit" value="Log In"/>
+                            </div>
+                        </form>
+                    </div>
 
-                    <a href="/auth/facebook" ><span></span> Facebook</a>
+                    <div className="login-facebook">
+                        <a href="/auth/facebook">  Login/Signup with Facebook<br/><br/> <i className="fa fa-facebook-square"></i> Facebook</a>
+                    </div>
 
-                    <p>Dont have an account yet? <a href="/signup">Signup</a></p>
+                    <div className="login-signup">
+                        <a href="/signup"> Don't have an account yet? <br/><br/>  <i className="fa fa-sign-in"></i> Signup</a>
+                    </div>
+
 
                 </div>
 

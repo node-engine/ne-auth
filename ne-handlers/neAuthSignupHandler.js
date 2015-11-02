@@ -3,7 +3,8 @@ var React = require('react');
 var meta = {
     path: "/signup",
     title: "Signup",
-    description: "Signup page"
+    description: "Signup page",
+    css: ["/ne-style/ne-css/neAuthStyle.css", "/ne-style/ne-css/neStyleFontAwesome.css"]
 };
 
 var handler = React.createClass({
@@ -11,43 +12,42 @@ var handler = React.createClass({
     render: function() {
         var self = this;
 
-        console.log(self.props);
-
         return (
             <body>
+                <div className="ne-row-70">
+                    <div className="ne-ccol-3s">
+                    </div>
 
-            <div className="ne-row-70">
+                    <div className="ne-ccol-3s">
+                        <h2 id="main-title">Signup Page</h2>
 
-                <div className="ne-ccol-3s">
-                </div>
-
-                <div className="ne-ccol-3s">
-                    <h2 id="main-title">Signup Page</h2>
-
-                    <form action="/auth/local/signup" method="post">
-                        <div>
-                            <label>Email: (required)</label>
-                            <input type="text" name="email"/>
+                        <div className="login-form">
+                            <form action="/auth/local/signup" method="post">
+                                <div>
+                                    <label>Email: (required)</label>
+                                    <input type="text" name="email"/>
+                                </div>
+                                <div>
+                                    <label>Password: (required)</label>
+                                    <input type="password" name="password"/>
+                                </div>
+                                <div>
+                                    <input type="submit" value="Signup"/>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <label>Password: (required)</label>
-                            <input type="password" name="password"/>
+
+                        <div className="login-facebook">
+                            <a href="/auth/facebook">  Login/Signup with Facebook<br/><br/> <i className="fa fa-facebook-square"></i> Facebook</a>
                         </div>
-                        <div>
-                            <input type="submit" value="Signup"/>
+
+                        <div className="login-signup">
+                            <a href="/login"> Already have an account? <br/><br/>  <i className="fa fa-sign-in"></i>Login</a>
                         </div>
-                    </form>
-
-                    <a href="/auth/facebook" ><span></span> Facebook</a>
-
-                    <p>Already have an account? <a href="/login">Login</a></p>
+                    </div>
+                    <div className="ne-ccol-3s">
+                    </div>
                 </div>
-
-                <div className="ne-ccol-3s">
-                </div>
-
-            </div>
-
             </body>
         )
     }

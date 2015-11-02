@@ -22,6 +22,13 @@ Dependencies
 - DU Update Dependency: A dependency is updated in the package
 
 
+# 1.4.8
+
+Release date: 20151102
+
+[CO] Styled login and signup pages
+
+
 # 1.4.7
 
 Release date: 201510212
