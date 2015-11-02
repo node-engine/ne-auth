@@ -4,7 +4,7 @@ var meta = {
     path: "/login",
     title: "Login",
     description: "Login page",
-    css: ["/ne-style/ne-css/neAuthStyle.css", "/ne-style/ne-css/neStyleFontAwesome.css"]
+    css: ["/neAuthStyle.css", "/ne-style/ne-css/neStyleFontAwesome.css"]
 };
 
 var handler = React.createClass({

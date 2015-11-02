@@ -10,7 +10,7 @@ var meta = {
             pathFunction: function (meta) {
                 path = process.env.ROOTURL + "/data/users" + "/" + meta.claims.user +"?token="+ meta.token;
                 return path
-            },
+            }
         }
     ]
 };
@@ -23,19 +23,26 @@ var handler = React.createClass({
         var adminnav;
         if (self.props.meta && self.props.meta.claims && self.props.meta.claims.displayName){
             var text = self.props.meta.claims.displayName;
-            adminnav =
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/profile">{text}</a></li>
-                    <li><a href="/admin">Admin</a></li>
-                    <li><a href="/auth/logout">Logout</a></li>
-                </ul>
+            adminnav =(
+                    <div className="login-form">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/profile">{text}</a></li>
+                            <li><a href="/admin">Admin</a></li>
+                            <li><a href="/auth/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                )
+
         }
         else {
-            adminnav =
-                <ul>
-                    <li><a href="/login">Login</a></li>
-                </ul>
+            adminnav =(
+                <div className="login-form">
+                    <ul>
+                        <li><a href="/login">Login</a></li>
+                    </ul>
+                </div>
+                )
         }
 
         if(self.props.meta.query.message){

@@ -21,6 +21,17 @@ Dependencies
 - DR Remove Dependency: A  dependency is removed from the package
 - DU Update Dependency: A dependency is updated in the package
 
+# 1.4.10
+
+Release date: 20151102
+
+[BF] Login and Signup handler
+- Fixed broken stylesheet links
+
+[CO] Profile handler 
+- Added styling
+
+
 # 1.4.9
 
 Release date: 20151102
