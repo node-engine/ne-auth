@@ -27,10 +27,12 @@ var handler = React.createClass({
                                     <label>Email: (required)</label>
                                     <input type="text" name="email"/>
                                 </div>
+                                <br/>
                                 <div>
                                     <label>Password: (required)</label>
                                     <input type="password" name="password"/>
                                 </div>
+                                <br/>
                                 <div>
                                     <input type="submit" value="Signup"/>
                                 </div>
